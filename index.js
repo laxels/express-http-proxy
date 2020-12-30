@@ -43,6 +43,11 @@ module.exports = function proxy(host, userOptions) {
       .then(decorateUserResHeaders)
       .then(decorateUserRes)
       .then(sendUserRes)
+      .then(() => {
+        if (next != null) {
+          next();
+        }
+      })
       .catch(function (err) {
         // I sometimes reject without an error to shortcircuit the remaining
         // steps and return control to the host application.
